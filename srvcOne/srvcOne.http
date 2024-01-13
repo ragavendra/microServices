@@ -1,0 +1,6 @@
+@srvcOne_HostAddress = http://localhost:5187
+
+GET {{srvcOne_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -17,6 +17,8 @@ and running them as containers like
 Once this repo is cloned, perform the below steps to bring the service(s) up.
 
 ```
+cd srvcOne
+
 // Build image(s)
 docker build -t srvcOne .
 

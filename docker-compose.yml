@@ -1,9 +1,11 @@
+version: "2"
+
 services:
-  srvc1:
+  srvc_one:
     container_name: srvcOneCont
     build:
       context: ./srvcOne
-      dockerfile: ./srvcOne/Dockerfile
+      dockerfile: ./Dockerfile
     deploy:
       resources:
         limits:
@@ -11,16 +13,5 @@ services:
     restart: unless-stopped
     ports:
       - 5187:5000
-
-  srvc2:
-    container_name: srvcTwoCont
-    build:
-      context: ./srvcOne
-      dockerfile: ./srvcOne/Dockerfile
-    deploy:
-      resources:
-        limits:
-          memory: 160M
-    restart: unless-stopped
-    ports:
-      - 5188:5001
+    volumes:
+      - ./srvcOne:/src

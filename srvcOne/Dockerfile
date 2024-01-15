@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ADD . /src
 WORKDIR /src
 COPY srvcOne.csproj .
 RUN dotnet restore

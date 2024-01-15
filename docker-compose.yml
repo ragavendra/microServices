@@ -1,26 +1,4 @@
 services:
-  producer:
-    container_name: producerCont
-    build:
-      context: ./prod
-      dockerfile: ./Dockerfile
-    deploy:
-      resources:
-        limits:
-          memory: 160M
-    restart: unless-stopped
-
-  consumer:
-    container_name: consumerCont
-    build:
-      context: ./cons
-      dockerfile: ./Dockerfile
-    deploy:
-      resources:
-        limits:
-          memory: 160M
-    restart: unless-stopped
-
   zookeeper-1:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -67,6 +45,40 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafkasetup:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka-1
+      - kafka-2
+    restart: "no"
+    entrypoint: [ "bash", "-c", "bin/kafka-topics.sh --create --topic sample-topic --bootstrap-server localhost:39092"]
+
+  producer:
+    container_name: producerCont
+    build:
+      context: ./prod
+      dockerfile: ./Dockerfile
+    depends_on:
+      - kafkasetup
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
+
+  consumer:
+    container_name: consumerCont
+    build:
+      context: ./cons
+      dockerfile: ./Dockerfile
+    depends_on:
+      - kafkasetup
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
 
   srvc1:
     container_name: srvcOneCont

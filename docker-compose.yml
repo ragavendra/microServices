@@ -52,7 +52,19 @@ services:
       - kafka-1
       - kafka-2
     restart: "no"
-    entrypoint: [ "bash", "-c", "bin/kafka-topics.sh --create --topic sample-topic --bootstrap-server localhost:39092"]
+    entrypoint: [ "bash", "-c" ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic my-topic-1 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic sample-topic --replication-factor 1 --partitions 1
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
 
   producer:
     container_name: producerCont

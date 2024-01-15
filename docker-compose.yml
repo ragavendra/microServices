@@ -13,5 +13,3 @@ services:
     restart: unless-stopped
     ports:
       - 3000:8080
-    volumes:
-      - ./srvcOne:/src

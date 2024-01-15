@@ -1,4 +1,26 @@
 services:
+  producer:
+    container_name: producerCont
+    build:
+      context: ./prod
+      dockerfile: ./Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
+
+  consumer:
+    container_name: consumerCont
+    build:
+      context: ./cons
+      dockerfile: ./Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
+
   srvc1:
     container_name: srvcOneCont
     build:

@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ADD . /src
 WORKDIR /src
-COPY srvcOne.csproj .
+COPY prod.csproj .
 RUN dotnet restore
 COPY . .
 RUN dotnet publish -c release -o /app

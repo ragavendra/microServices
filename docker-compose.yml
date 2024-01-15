@@ -71,7 +71,7 @@ services:
   srvc1:
     container_name: srvcOneCont
     build:
-      context: ./
+      context: ./srvcOne
       dockerfile: ./Dockerfile
     deploy:
       resources:
@@ -84,7 +84,7 @@ services:
   srvc2:
     container_name: srvcTwoCont
     build:
-      context: ./
+      context: ./srvcOne
       dockerfile: ./Dockerfile
     deploy:
       resources:

@@ -3,7 +3,7 @@ services:
     container_name: producerCont
     build:
       context: ./prod
-      dockerfile: ./prod/Dockerfile
+      dockerfile: ./Dockerfile
     deploy:
       resources:
         limits:
@@ -14,7 +14,7 @@ services:
     container_name: consumerCont
     build:
       context: ./cons
-      dockerfile: ./cons/Dockerfile
+      dockerfile: ./Dockerfile
     deploy:
       resources:
         limits:

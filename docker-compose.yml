@@ -60,7 +60,8 @@ services:
       context: ./prod
       dockerfile: ./Dockerfile
     depends_on:
-      - kafkasetup
+      - kafka-1
+      - kafka-2
     deploy:
       resources:
         limits:
@@ -73,7 +74,8 @@ services:
       context: ./cons
       dockerfile: ./Dockerfile
     depends_on:
-      - kafkasetup
+      - kafka-1
+      - kafka-2
     deploy:
       resources:
         limits:

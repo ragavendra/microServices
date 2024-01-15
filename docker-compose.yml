@@ -51,8 +51,7 @@ services:
     depends_on:
       - kafka-1
       - kafka-2
-    restart: "no"
-    entrypoint: [ "bash", "-c" ]
+    entrypoint: [ 'bash', '-c' ]
     command: |
       "
       # blocks until kafka is reachable

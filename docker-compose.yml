@@ -78,7 +78,14 @@ services:
         limits:
           memory: 160M
     restart: unless-stopped
-    ports:
-      - 5187:5000
-    volumes:
-      - ./srvcOne:/src
+
+  srvc2:
+    container_name: srvcTwoCont
+    build:
+      context: ./srvcOne
+      dockerfile: ./Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped

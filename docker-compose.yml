@@ -80,6 +80,8 @@ services:
     restart: unless-stopped
     ports:
       - 5187:5000
+    volumes:
+      - ./srvcOne:/src
 
   srvc2:
     container_name: srvcTwoCont
@@ -93,3 +95,5 @@ services:
     restart: unless-stopped
     ports:
       - 5188:5001
+    volumes:
+      - ./srvcOne:/src

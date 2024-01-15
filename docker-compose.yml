@@ -12,6 +12,6 @@ services:
           memory: 160M
     restart: unless-stopped
     ports:
-      - 5187:5000
+      - 3000:8080
     volumes:
       - ./srvcOne:/src

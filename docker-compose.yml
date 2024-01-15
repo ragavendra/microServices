@@ -2,8 +2,8 @@ services:
   srvc1:
     container_name: srvcOneCont
     build:
-      context: ./
-      dockerfile: ./Dockerfile
+      context: ./srvcOne
+      dockerfile: ./srvcOne/Dockerfile
     deploy:
       resources:
         limits:
@@ -15,8 +15,8 @@ services:
   srvc2:
     container_name: srvcTwoCont
     build:
-      context: ./
-      dockerfile: ./Dockerfile
+      context: ./srvcOne
+      dockerfile: ./srvcOne/Dockerfile
     deploy:
       resources:
         limits:

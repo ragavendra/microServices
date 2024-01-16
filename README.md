@@ -16,4 +16,6 @@ The below command should bring all the services defined in the docker compose fi
 docker compose up
 ```
 
-The below screen shows the docker log <a href="DockerLogs.png" target="_blank">Screen</a>
+The below screen shows the docker log of the `producer` and the `consumer`.
+
+![Docker Logs](DockerLogs.png)

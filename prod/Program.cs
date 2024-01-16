@@ -1,6 +1,6 @@
 using Confluent.Kafka;
 
-var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
+var config = new ProducerConfig { BootstrapServers = "kafka:29092" };
 
 Action<DeliveryReport<Null, string>> handler_2 = handler_ =>
   Console.WriteLine(handler_.Error.IsError ? "Delivery error - " + handler_.Error.Reason : "Message delivered to - " + handler_.TopicPartitionOffset);

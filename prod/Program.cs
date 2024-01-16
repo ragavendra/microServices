@@ -1,9 +1,17 @@
 using Confluent.Kafka;
+using prod;
 
 var config = new ProducerConfig { BootstrapServers = "kafka:29092" };
 
 Action<DeliveryReport<Null, string>> handler_2 = handler_ =>
   Console.WriteLine(handler_.Error.IsError ? "Delivery error - " + handler_.Error.Reason : "Message delivered to - " + handler_.TopicPartitionOffset);
+
+  ICoffee coffee = new Coffee();
+
+  // add cream
+  CreamDecorator creamDecorator = new CreamDecorator(coffee);
+  if(creamDecorator.GetCost() == 1.3)
+    Console.WriteLine("After adding cream, total is " + creamDecorator.GetCost().ToString());
 
 using (var p = new ProducerBuilder<Null, string>(config).Build())
 {

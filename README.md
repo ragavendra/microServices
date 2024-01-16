@@ -1,33 +1,19 @@
 # Microservies architecture
 This repo consists of sample api using the microservices architecture. One `srvcOne` api instance is run twice as two different services like in the `docker-compose.yml` to demonstrate microservices architecture.
 
-### Docker setup
+There are the below service configured in the [docker-compose.yml](docker-compose.yml)
 
-#### Run all containers
-Once in this directory, building images using `docker-compose.yml` should be as straight as
+a. `Zookeeper` startup service for Apacke Kafka.
+b. `Apache Kafka` service itself with additional service to create the topic.
+c. Events `producer` service, producing about hundred(s) of events.
+d. Events `consumer` service, to consume these events.
 
-`sudo docker build -t perfrunner .`
+### Docker
 
-and running them as containers like
-
-`docker compose up --no-build`
-
-
-#### Run one container
-Once this repo is cloned, perform the below steps to bring the service(s) up.
+The below command should bring all the services defined in the docker compose file and start running the `producer` and the `consumer` almost right away.
 
 ```
-cd srvcOne
-
-// Build image(s)
-docker build -t srvcOne .
-
-// Show images
-docker images
-
-// Run container for the image
-docker run -it --rm -p 3000:8080 --name srvcOneCont srvcOne
-
-// Show containers
-docker ps
+docker compose up
 ```
+
+The below screen shows the docker log <a href="DockerLogs.png" target="_blank">Screen</a>

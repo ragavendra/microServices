@@ -6,12 +6,12 @@ var config = new ProducerConfig { BootstrapServers = "kafka:29092" };
 Action<DeliveryReport<Null, string>> handler_2 = handler_ =>
   Console.WriteLine(handler_.Error.IsError ? "Delivery error - " + handler_.Error.Reason : "Message delivered to - " + handler_.TopicPartitionOffset);
 
-  ICoffee coffee = new Coffee();
+ICoffee coffee = new Coffee();
 
-  // add cream
-  CreamDecorator creamDecorator = new CreamDecorator(coffee);
-  if(creamDecorator.GetCost() == 1.3)
-    Console.WriteLine("After adding cream, total is " + creamDecorator.GetCost().ToString());
+// add cream
+CreamDecorator creamDecorator = new CreamDecorator(coffee);
+if (creamDecorator.GetCost() == 1.3)
+  Console.WriteLine("After adding cream, total is " + creamDecorator.GetCost().ToString());
 
 using (var p = new ProducerBuilder<Null, string>(config).Build())
 {
@@ -20,9 +20,10 @@ using (var p = new ProducerBuilder<Null, string>(config).Build())
   {
     // p.Flush();
 
-    for (int i = 0; i < 98; ++i)
+    for (int i = 0; i < 1000_000; ++i)
     {
-     p.Produce("sample-topic", new Message<Null, string> { Value = "Sending this msg # " + i.ToString() }, handler_2);
+      //var msg = new Message<int, string> { Value = "Some text here" };
+      p.Produce("sample-topic", new Message<Null, string> { Value = "Sending this msg # " + i.ToString() }, handler_2);
     }
 
     // wait for up to 10 seconds for any inflight messages to be delivered.

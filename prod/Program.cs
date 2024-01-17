@@ -20,7 +20,7 @@ using (var p = new ProducerBuilder<Null, string>(config).Build())
   {
     // p.Flush();
 
-    for (int i = 0; i < 1000_000; ++i)
+    for (int i = 0; i < 100; i++)
     {
       //var msg = new Message<int, string> { Value = "Some text here" };
       p.Produce("sample-topic", new Message<Null, string> { Value = "Sending this msg # " + i.ToString() }, handler_2);

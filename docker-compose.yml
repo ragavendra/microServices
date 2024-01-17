@@ -1,0 +1,94 @@
+services:
+  zookeeper:
+    image: docker.io/confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000  
+
+# reachable on 9092 from the host and on 29092 from inside docker compose
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    expose:
+      - '29092'
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: '1'
+      KAFKA_MIN_INSYNC_REPLICAS: '1'
+
+  init-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # blocks until kafka is reachable
+      kafka-topics --bootstrap-server kafka:29092 --list
+
+      echo -e 'Creating kafka topics'
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic sample-topic --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic my-topic-1 --replication-factor 1 --partitions 1
+      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic my-topic-2 --replication-factor 1 --partitions 1
+
+      echo -e 'Successfully created the following topics:'
+      kafka-topics --bootstrap-server kafka:29092 --list
+      "
+
+  producer:
+    container_name: producerCont
+    build:
+      context: ./prod
+      dockerfile: ./Dockerfile
+    depends_on:
+      - kafka
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
+
+  consumer:
+    container_name: consumerCont
+    build:
+      context: ./cons
+      dockerfile: ./Dockerfile
+    depends_on:
+      - kafka
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
+
+  srvc1:
+    container_name: srvcOneCont
+    build:
+      context: ./srvcOne
+      dockerfile: ./Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
+
+  srvc2:
+    container_name: srvcTwoCont
+    build:
+      context: ./srvcOne
+      dockerfile: ./Dockerfile
+    deploy:
+      resources:
+        limits:
+          memory: 160M
+    restart: unless-stopped
